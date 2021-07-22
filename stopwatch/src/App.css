@@ -1,0 +1,14 @@
+.main{
+    /* border: 1px solid black; */
+    height: 647px;
+    width: 100%;
+    background-image: linear-gradient(to bottom right,  #443B84, #9A66C5);
+}
+.laps{
+    display: flex;
+    position:absolute;
+    border: 1px solid white;
+    height: 300px;
+    width: 300px;
+    color: white;
+}

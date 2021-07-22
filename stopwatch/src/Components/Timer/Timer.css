@@ -1,0 +1,20 @@
+.timer{
+    border: 3px solid white;
+    border-radius: 50%;
+    font-size: 50px;
+    margin-left: 40%;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    position: absolute;
+    top: 50px;
+    color: white;
+}
+.time{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 65px;
+    color: white;
+    /* font-size: 50px; */
+}

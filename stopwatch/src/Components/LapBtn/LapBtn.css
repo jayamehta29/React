@@ -1,0 +1,22 @@
+.lap-outer{
+    border: 1px solid white;
+    border-radius: 50%;
+    font-size: 50px;
+    margin-left: 71%;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    position: absolute;
+    top: 90px;
+    color: white;
+    cursor: pointer;
+}
+.lap-inner{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+    color: white;
+    cursor: pointer;
+    /* font-size: 50px; */
+}
