@@ -1,6 +1,6 @@
 import React , {Component} from 'react'
 
-import './ResetBtn.css'
+// import './ResetBtn.css'
 
 class ResetBtn extends Component{
     constructor(){

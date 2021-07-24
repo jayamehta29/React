@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
-import Timer from './Components/Timer/Timer.jsx'
-import PauseBtn from './Components/PauseBtn/PauseBtn.jsx'
-import StartBtn from './Components/StartBtn/StartBtn.jsx'
-import ResetBtn from './Components/ResetBtn/ResetBtn.jsx'
-import LapBtn from './Components/LapBtn/LapBtn.jsx'
+import Timer from './Components/Timer.jsx'
+import PauseBtn from './Components/PauseBtn.jsx'
+import StartBtn from './Components/StartBtn.jsx'
+import ResetBtn from './Components/ResetBtn.jsx'
+import LapBtn from './Components/LapBtn.jsx'
+import LapRecordDisplay from './Components/LapRecordDisplay.jsx'
 
 import './App.css';
 
@@ -18,8 +19,10 @@ class App extends Component {
       sec: 0,
       msec: 0,
       lap: [],
+      currLap:{},
       // lapClicked:false
     }
+    
   }
 
 
@@ -31,7 +34,9 @@ class App extends Component {
       min: 0,
       sec: 0,
       msec: 0,
+      currLap:{}
     })
+    clearInterval(this.myinterval);
   }
 
   handlePause = () => {
@@ -76,30 +81,25 @@ class App extends Component {
     }, 10);
   }
 
+ 
+
 
   handleLap = () => {
 
     this.setState({
-      lap: [...this.state.lap, this.state.hr,
-      this.state.min,
-      this.state.sec,
-      this.state.msec,],
-
-      lapClicked: !(this.state.lapClicked),
+      lap: [...this.state.lap, {hr:this.state.hr,min:this.state.min,sec:this.state.sec,msec:this.state.msec},],
+      currLap: {hr:this.state.hr,min:this.state.min,sec:this.state.sec,msec:this.state.msec},
     })
+    // let currLap=[];
+
+    this.state.lap.push(this.state.currLap);
+
     console.log(this.state.lap);
-
-    // {
-    //   (this.state.lap).size != 0 ? (<div className="lap">
-    //     <h1>time laps</h1>
-    //   </div>) : ""
-    // }
-
-
+    console.log(this.state.currLap);
   }
 
   render() {
-    let { hr, min, sec, msec, flag, lapClicked, lap } = this.state;
+    let { hr, min, sec, msec, flag, currLap } = this.state;
     return (
       <>
 
@@ -112,15 +112,12 @@ class App extends Component {
           }
 
           <ResetBtn handleReset={this.handleReset} />
-          <LapBtn handleLap={this.handleLap} lap={lap}>
-
-          </LapBtn>
-
+          <LapBtn handleLap={this.handleLap} />
+          <LapRecordDisplay onClick={this.handleLap} currLap={currLap} LAP RECORD/>
+          {/* <div className="laps">
+            <h1>LAPS RECORD</h1>
+          </div> */}
         </div>
-        <div className="laps">
-            <h1>time laps</h1>
-          </div>
-
       </>
     );
   }

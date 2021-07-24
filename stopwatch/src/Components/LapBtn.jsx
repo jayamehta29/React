@@ -1,5 +1,5 @@
 import React , {Component} from 'react'
-import './LapBtn.css'
+
 class LapBtn extends Component{
     constructor(props){
         super(props);
@@ -16,6 +16,7 @@ class LapBtn extends Component{
                     LAP
                 </div>
             </div>
+            
             
             
            </>

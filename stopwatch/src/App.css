@@ -1,14 +1,116 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+
+}
 .main{
-    /* border: 1px solid black; */
-    height: 647px;
-    width: 100%;
+    border: 1px solid black;
+    height: 645px;
+    width: 1278px;
     background-image: linear-gradient(to bottom right,  #443B84, #9A66C5);
+    overflow:"hidden";
+    
 }
 .laps{
+   position: absolute;
+    color: white;
+    text-align: center;
+    top: 70%;
+    left: 35%;
+    width: 35%;
+    height: 35px;
+    border: 2px solid white;
+}
+.laps h1{
+    font-size: 20px;
+    font-weight: bold;
+}
+.laprecord{
+    position: relative;
+    color: white;
+    text-align: center;
+    top: 20px;
+    width: 100%;
+    height: 35px;
+    border: 2px solid white;
+    font-size: 20px;
+    font-weight: normal;
+}
+.play-pause{
     display: flex;
-    position:absolute;
+    position: absolute;
+    left: 49%;
+    top: 307px;
+    cursor: pointer;
+    
+    /* color: #443B84 ; */
+    color: white;
+    outline: none;
+    border: none;
+}
+.lap-outer{
     border: 1px solid white;
+    border-radius: 50%;
+    font-size: 50px;
+    margin-left: 71%;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    position: absolute;
+    top: 90px;
+    color: white;
+    cursor: pointer;
+}
+.lap-inner{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+    color: white;
+    cursor: pointer;
+    /* font-size: 50px; */
+}
+.timer{
+    border: 3px solid white;
+    border-radius: 50%;
+    font-size: 50px;
+    margin-left: 40%;
     height: 300px;
     width: 300px;
+    display: flex;
+    position: absolute;
+    top: 50px;
     color: white;
 }
+.time{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 65px;
+    color: white;
+    /* font-size: 50px; */
+}
+.outer{
+    border: 1px solid white;
+    border-radius: 50%;
+    font-size: 50px;
+    margin-left: 12%;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    position: absolute;
+    top: 90px;
+    color: white;
+    cursor: pointer;
+}
+.inner{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 65px;
+    color: white;
+    cursor: pointer;
+    /* font-size: 50px; */
+}
+
