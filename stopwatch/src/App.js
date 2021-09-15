@@ -1,127 +1,148 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
+
+
+//************************************************************************************ */
+//REACT HOOKS POC
+// function App(props){
+// const [count,setCount] = useState(0);
+// const [tCount,setTCount] = useState(10);
+
+
+// useEffect(()=>{
+//   console.log("didmount ");
+//   return ()=>{
+//     console.log("willUnMount");
+//   }
+// },[])
+
+
+// useEffect(()=>{
+//   console.log("didmount an didupdate ");
+// })
+
+// useEffect(()=>{
+//   console.log("count did update");
+// },[count,tCount])
+
+
+// return(
+// <div>
+//   HELLO APP
+//   <p>{count}</p>
+//   <button onClick={()=>{
+//     setCount(count+1);
+//   }}>INC</button>
+//   {/* <button></button> */}
+//   <p>{tCount}</p>
+//   <button onClick={()=>{
+//     setTCount(tCount+1);
+//   }}>INC</button>
+// </div>
+
+// );
+
+// }
+
+//************************************************************************************ */
 
 import Timer from './Components/Timer.jsx'
-import PauseBtn from './Components/PauseBtn.jsx'
-import StartBtn from './Components/StartBtn.jsx'
-import ResetBtn from './Components/ResetBtn.jsx'
-import LapBtn from './Components/LapBtn.jsx'
+import AllBtn from './Components/AllBtn.jsx'
 import LapRecordDisplay from './Components/LapRecordDisplay.jsx'
+import SSBtn from './Components/SSBtn.jsx'
+import { useRef } from 'react'
 
+import { faPause, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      flag: false,
-      hr: 0,
-      min: 0,
-      sec: 0,
-      msec: 0,
-      lap: [],
-      currLap:{},
-      // lapClicked:false
-    }
-    
-  }
+function App(props) {
+  const myinterval = useRef(null);
 
+  const [hr, setHr] = useState(0);
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
+  const [msec, setMsec] = useState(0);
+  const [key, setId] = useState(1);
+  const [lap, setLap] = useState([]);
+  const [flag, setFlag] = useState(false);
 
-  handleReset = () => {
+  function handleReset() {
     console.log("reset");
-    this.setState({
-      flag: false,
-      hr: 0,
-      min: 0,
-      sec: 0,
-      msec: 0,
-      currLap:{}
-    })
-    clearInterval(this.myinterval);
+    setHr(0);
+    setMin(0);
+    setSec(0);
+    setMsec(0);
+    setFlag(false);
+    setId(0);
+    setLap([]);
+    clearInterval(myinterval.current);
   }
 
-  handlePause = () => {
+
+  function handlePause() {
     console.log("pause");
-    this.setState({
-      flag: false,
-    })
-    clearInterval(this.myinterval);
+    // console.log(flag);
+    // let fflag;
+    // setFlag(flag=>{ 
+    //   fflag=flag;
+    //   return false});
+    setFlag(false);
+    clearInterval(myinterval.current);
+    console.log(flag);
   }
 
-  handleStart = () => {
+  function handleStart() {
     console.log("start");
-    this.setState({
-      flag: true,
+    setFlag(true);
 
-    })
+    myinterval.current = setInterval(() => {
+      let val;
 
-    this.myinterval = setInterval(() => {
-      this.setState({
-        msec: this.state.msec + 1
+      setMsec(msec => {
+        val = msec;
+        return msec + 1
       });
 
-      if (this.state.msec == '100') {
-        this.setState({
-          sec: this.state.sec + 1,
-          msec: 0
-        })
+      if (val === 100) {
+        setSec(sec => sec + 1);
+        setMsec(0);
       }
-      if (this.state.sec == '60') {
-        this.setState({
-          min: this.state.min + 1,
-          sec: 0
-        })
+      if (sec === 60) {
+        setMin(min => min + 1);
+        setSec(0);
       }
 
-      if (this.state.min == '60') {
-        this.setState({
-          hr: this.state.hr + 1,
-          min: 0
-        })
+      if (min === 60) {
+        setHr(hr => hr + 1);
+        setMin(0);
       }
     }, 10);
   }
 
- 
 
-
-  handleLap = () => {
-
-    this.setState({
-      lap: [...this.state.lap, {hr:this.state.hr,min:this.state.min,sec:this.state.sec,msec:this.state.msec},],
-      currLap: {hr:this.state.hr,min:this.state.min,sec:this.state.sec,msec:this.state.msec},
-    })
-    // let currLap=[];
-
-    this.state.lap.push(this.state.currLap);
-
-    console.log(this.state.lap);
-    console.log(this.state.currLap);
+  function handleLap() {
+    let newlap = [{ key: key, hr: hr, min: min, sec: sec, msec: msec },...lap];
+    setId(key => key + 1);
+    setLap(newlap);
+    console.log(lap);
   }
 
-  render() {
-    let { hr, min, sec, msec, flag, currLap } = this.state;
-    return (
-      <>
+  return (
+    <>
+      <div className="main">
+        <Timer hr={hr} min={min} sec={sec} msec={msec} />
 
-        <div className="main">
-          <Timer hr={hr} min={min} sec={sec} msec={msec} />
+        {flag ?
+          <SSBtn handle={handlePause} icon={faPause} /> :
+          <SSBtn handle={handleStart} icon={faPlayCircle} />
+        }
 
-          {flag ?
-            <PauseBtn handlePause={this.handlePause} /> :
-            <StartBtn handleStart={this.handleStart} />
-          }
+        <AllBtn handle={handleReset} name="RESET" classNameO="outer" classNameI="inner" />
+        <AllBtn handle={handleLap} name="LAP" classNameO="lap-outer" classNameI="lap-inner" />
 
-          <ResetBtn handleReset={this.handleReset} />
-          <LapBtn handleLap={this.handleLap} />
-          <LapRecordDisplay onClick={this.handleLap} currLap={currLap} LAP RECORD/>
-          {/* <div className="laps">
-            <h1>LAPS RECORD</h1>
-          </div> */}
-        </div>
-      </>
-    );
-  }
+        <LapRecordDisplay lap={lap} />
+      </div>
+    </>
+  );
 }
-
 
 export default App;
