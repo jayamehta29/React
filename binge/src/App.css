@@ -1,0 +1,46 @@
+
+#navbarSupportedContent > ul > li > a{
+  color: white;
+}
+:root {
+  scroll-behavior: smooth;
+  background-color: #363945;
+}
+
+
+/* *************navbar**************** */
+.user{
+  color: white;
+  position: relative;
+  top: 9px;
+  margin-left: 20px;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+
+/* **********CAROUSAL***************** */
+.cimg{
+  margin-left: auto;
+}
+
+.left-crsl{
+  position: absolute;
+  top: 6%;
+  left: 10%;
+  color:white;
+}
+.cbtn{
+  border: 1px solid white;
+  background-color: #363945;
+  margin-right: 2rem;
+  margin-top: 2rem;
+  padding: 13px;
+  width: 13%;
+  color: white;
+  border-radius: 5px;
+}
+.diff-btn{
+  border: none;
+  background-color: #0F78AF;
+}
