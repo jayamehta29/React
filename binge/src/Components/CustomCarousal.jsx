@@ -2,10 +2,11 @@ import { React, useState, useEffect } from 'react'
 import axios from "axios";
 import { API_KEY, API_URL, IMAGE_URL } from "../api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLaptopHouse, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import MoviePage from "./MoviePage/MoviePage";
 import { Carousel, CarouselItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Youtube from 'react-youtube';
 
 const CustomCarousal = () => {
 
@@ -45,7 +46,7 @@ const CustomCarousal = () => {
 
   const [showComponent, setshowComponent] = useState(false);
 
-  function mComp() {
+  const mComp=async(mdata)=> {
     return (
       <>
         {setshowComponent(true)};
@@ -57,52 +58,53 @@ const CustomCarousal = () => {
       </>
     );
   }
+  
+  const opts = {
+    height: "390",
+    width: "80%",
+    playerVars: {
+      autoplay: 1,
+      origin: 'http://localhost:3000',
+    },
+  };
+
+  const [trailerUrl, setTrailerUrl] = useState("");
+  const handleClick = async (movie) => {
+    if (trailerUrl) {
+      setTrailerUrl("");
+    } else {
+      let trailerurl = await axios.get(
+        `${API_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`
+      );
+      setTrailerUrl(trailerurl.data.results[0]?.key);
+    }
+  };
 
   return (
     <>
-      {/* <div className="cusmovies" style={{ backgroundColor: "#363945" }}> */}
-
       <Carousel style={{ backgroundColor: "#363945" }} slide={true} fade={false}>
         {mdata.map((mdata) => {
           // console.log(mdata);
           return (
-            // <>
-              <Carousel.Item>
-                <div className="left-crsl">
-                  <h2 style={{ color: "white" }}>{mdata.title}</h2>
-                  <div className="txt" style={{ width: "50%", }}>
-                    <div className="text-md-left">{mdata.overview}</div>
-                  </div>
-                  <div className="btns">
-                    <button className="cbtn diff-btn"><FontAwesomeIcon icon={faPlay} style={{ marginRight: "10px" }} />Watch Now</button>
-                    <button className="cbtn" onClick={() => mComp}>details</button>
-                  </div>
+            <Carousel.Item>
+              <div className="left-crsl">
+                <h2 style={{ color: "white" }}>{mdata.title}</h2>
+                <div className="txt" style={{ width: "50%", }}>
+                  <div className="text-md-left">{mdata.overview}</div>
                 </div>
-                <img src={IMAGE_URL + mdata.poster_path} className="d-block cimg" style={{ width: "30%", height: "300px", marginBottom: "20px", marginLeft: "47rem" }} />
-              </Carousel.Item>
-            // </>
+                <div className="btns">
+                  <button className="cbtn diff-btn" onClick={() => handleClick(mdata)}><FontAwesomeIcon icon={faPlay} style={{ marginRight: "10px" }} />Watch Now</button>
+                  <button className="cbtn" onClick={() => mComp(mdata)}>details</button>
+                </div>
+              </div>
+              <img src={IMAGE_URL + mdata.poster_path} className="d-block cimg" style={{ width: "30%", height: "300px", marginBottom: "20px", marginLeft: "47rem" }} />
+            </Carousel.Item>
           );
         })}
       </Carousel>
-
-
-      {/* <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <div className="left-crsl">
-                    <h2 style={{ color: "white" }}>{mdata.title}</h2>
-                    <div className="txt" style={{ width: "50%", }}>
-                      <div className="text-md-left">{mdata.overview}</div>
-                    </div>
-                    <div className="btns">
-                      <button className="cbtn diff-btn"><FontAwesomeIcon icon={faPlay} style={{ marginRight: "10px" }} />Watch Now</button>
-                      <button className="cbtn" onClick={()=>mComp}>details</button>
-                    </div>
-                  </div>
-                  <img src={IMAGE_URL + mdata.poster_path} className="d-block cimg" style={{ width: "30%", height: "300px", marginBottom: "20px" , marginLeft: "47rem"}} />
-                </div>
-              </div> */}
-
-      {/* </div> */}
+      <div className="v" style={{ backgroundColor: "#363945" ,justifyContent:"center"} }>
+        { trailerUrl && <Youtube videoId={trailerUrl} opts={opts} />}
+    </div>
     </>
   )
 }

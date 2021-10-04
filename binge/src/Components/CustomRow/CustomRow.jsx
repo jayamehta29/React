@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Youtube from "react-youtube";
 import { IMAGE_URL, API_URL,API_KEY } from "../../api";
-// import "../Components/"
 import "./CustomRow.css";
 
 const CustomRow = ({title, link}) => {
@@ -27,7 +26,7 @@ const CustomRow = ({title, link}) => {
             return request;
         }
         fetchData();
-    }, []);
+    }, [link]);
 
     const handleClick = async (movie) => {
         if (trailerUrl) {
