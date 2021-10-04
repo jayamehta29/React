@@ -1,3 +1,7 @@
+body{
+  overflow-y: scroll;
+overflow-x: hidden;
+}
 
 #navbarSupportedContent > ul > li > a{
   color: white;
@@ -8,21 +12,8 @@
 }
 
 
-/* *************navbar**************** */
-.user{
-  color: white;
-  position: relative;
-  top: 9px;
-  margin-left: 20px;
-  margin-right: 2rem;
-  cursor: pointer;
-}
-
-
 /* **********CAROUSAL***************** */
-.cimg{
-  margin-left: auto;
-}
+
 
 .left-crsl{
   position: absolute;
