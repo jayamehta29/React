@@ -1,6 +1,7 @@
 .movie-page{
     height: calc(100vh - 50px);
     position: relative;
+    background-color: #363945;
 }
 
 .movie-page-poster{

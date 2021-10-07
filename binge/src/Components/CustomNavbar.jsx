@@ -1,50 +1,40 @@
-import { React, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
+import { React, useState, useEffect } from 'react'
 import "../App.css";
-import axios from "axios";
-import { API_KEY, API_URL } from "../api";
-import CustomCarousal from './CustomCarousal';
-// import SearchedMovie from './SearchedMovie';
 
-const CustomNavbar = (nmd) => {
+// import axios from "axios";
+// import { API_KEY, API_URL, IMAGE_URL } from "../api";
+import SearchPage from "./SearchPage";
 
-    const [newMovieName, setnewMovieName] = useState("");
-    const [movieData, setmovieData] = useState(nmd);
 
-    async function setMovies(newMovieName) {
-        let data = await axios.get(API_URL + "/search/movie", {
-            params: { api_key: API_KEY, page: 1, query: newMovieName },
-        });
-        let moviesData = data.data.results.slice(0, 5);
+const CustomNavbar = () => {
 
-        console.log(moviesData);
-        //     moviesData: moviesData,
-        //   currentMovie: newMovieName,
-        setmovieData(moviesData);
-        <CustomCarousal smd={movieData} />
-        // <CustomCarousal />
+    
 
-    };
-
+    const [keypress, setkeypress] = useState(false);
+    const [newMovieName, setnewMovieName] = useState([]);
     function handleOnChange(e) {
-        // console.log(e);
         let value = e.target.value;
-        // newMovieName = value;
+        console.log(value);
         setnewMovieName(value);
     };
 
     function handleKeyPress(e) {
         if (e.key == "Enter") {
-            console.log(newMovieName);
-            setMovies(newMovieName);
+            // <Link to="./SearchPage">
+            setkeypress(true);
+            setnewMovieName(newMovieName);
+            e.preventDefault();
+
         }
     };
+    
 
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-dark">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#" style={{ color: "white", marginLeft: "2rem" }}>
+                    <a className="navbar-brand" href="/" style={{ color: "white", marginLeft: "2rem" }}>
                         BINGE
                     </a>
                     <button
@@ -84,16 +74,6 @@ const CustomNavbar = (nmd) => {
                             </li>
                         </ul>
                         <form className="d-flex">
-
-                            {/* <input
-                                className="form-control me-3"
-                                aria-label="Search"
-                                value={newMovieName}
-                                type="text"
-                                placeholder="Search"
-                                onChange={() => handleOnChange()}
-                                onKeyPress={() => handleKeyPress()}
-                            /> */}
                             <div className="search-btn">
                                 <input
                                     className="form-control me-3"
@@ -104,12 +84,17 @@ const CustomNavbar = (nmd) => {
                                     onChange={handleOnChange}
                                     onKeyPress={handleKeyPress}
                                 />
+
                             </div>
-                            {/* <button className="btn btn-outline-info" type="submit">SEARCH</button> */}
+                            {/* <button className="btn btn-outline-info" type="submit" onClick={handleOnClick}>SEARCH</button> */}
                         </form>
                     </div>
                 </div>
             </nav>
+                {keypress ?
+                
+                    <SearchPage obj={newMovieName}/>
+                     : null}
         </>
     )
 }

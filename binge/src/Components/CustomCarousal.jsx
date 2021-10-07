@@ -3,10 +3,10 @@ import axios from "axios";
 import { API_KEY, API_URL, IMAGE_URL } from "../api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import MoviePage from "./MoviePage/MoviePage";
 import { Carousel, CarouselItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Youtube from 'react-youtube';
+import { useHistory } from 'react-router-dom';
 
 const CustomCarousal = () => {
 
@@ -18,7 +18,7 @@ const CustomCarousal = () => {
       let data = await axios.get(API_URL + "/search/movie", {
         params: { api_key: API_KEY, page: 1, query: currmovie },
       });
-      let mdata = data.data.results.slice(0, 5);
+      let mdata = data.data.results.slice(0, 10);
       setMd(mdata);
     }
 
@@ -43,25 +43,10 @@ const CustomCarousal = () => {
 
     apiData();
   }, []);
-
-  const [showComponent, setshowComponent] = useState(false);
-
-  const mComp=async(mdata)=> {
-    return (
-      <>
-        {setshowComponent(true)};
-        {showComponent ?
-
-          <MoviePage movieObj={mdata} dmo={detailedMO} /> :
-          null
-        }
-      </>
-    );
-  }
   
   const opts = {
     height: "390",
-    width: "80%",
+    width: "88%",
     playerVars: {
       autoplay: 1,
       origin: 'http://localhost:3000',
@@ -69,7 +54,9 @@ const CustomCarousal = () => {
   };
 
   const [trailerUrl, setTrailerUrl] = useState("");
+
   const handleClick = async (movie) => {
+  
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
@@ -79,10 +66,15 @@ const CustomCarousal = () => {
       setTrailerUrl(trailerurl.data.results[0]?.key);
     }
   };
+  const history = useHistory();
+  
+  const newPath=(movie)=>{
+    history.push(`/MoviePage/${movie.id}`);
+  }
 
   return (
     <>
-      <Carousel style={{ backgroundColor: "#363945" }} slide={true} fade={false}>
+      <Carousel style={{ backgroundColor: "#363945"}} slide={true} fade={false}>
         {mdata.map((mdata) => {
           // console.log(mdata);
           return (
@@ -94,16 +86,19 @@ const CustomCarousal = () => {
                 </div>
                 <div className="btns">
                   <button className="cbtn diff-btn" onClick={() => handleClick(mdata)}><FontAwesomeIcon icon={faPlay} style={{ marginRight: "10px" }} />Watch Now</button>
-                  <button className="cbtn" onClick={() => mComp(mdata)}>details</button>
+                  <button className="cbtn" onClick={()=>newPath(mdata)}>details</button>
                 </div>
               </div>
-              <img src={IMAGE_URL + mdata.poster_path} className="d-block cimg" style={{ width: "30%", height: "300px", marginBottom: "20px", marginLeft: "47rem" }} />
+              <img src={IMAGE_URL + mdata.poster_path} className="d-block cimg" style={{ marginTop:"2rem" ,width: "30%", height: "300px", marginBottom: "30px", marginLeft: "47rem" }} />
             </Carousel.Item>
           );
         })}
       </Carousel>
-      <div className="v" style={{ backgroundColor: "#363945" ,justifyContent:"center"} }>
+      <div style={{ backgroundColor: "#363945"}}>
+        <div style={{marginLeft:"8rem"}}>
         { trailerUrl && <Youtube videoId={trailerUrl} opts={opts} />}
+        </div>
+        
     </div>
     </>
   )

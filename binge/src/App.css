@@ -1,6 +1,7 @@
 body{
   overflow-y: scroll;
 overflow-x: hidden;
+background-color: #363945;
 }
 
 #navbarSupportedContent > ul > li > a{
@@ -34,8 +35,4 @@ overflow-x: hidden;
 .diff-btn{
   border: none;
   background-color: #0F78AF;
-}
-iframe {
-  border: 0;
-  margin-left: 124px;
 }
